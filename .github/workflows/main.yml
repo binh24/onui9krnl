@@ -5,7 +5,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     strategy:
       fail-fast: false
@@ -21,15 +21,13 @@ jobs:
 
       - name: Set up build environment
         run: |
-        sudo apt update
-        DEBIAN_FRONTEND=noninteractive sudo apt install -yq \
-          p7zip-full jq attr ccache clang ffmpeg golang \
-          libbrotli-dev libgtest-dev libprotobuf-dev libunwind-dev libpcre2-dev \
-          libzstd-dev lld protobuf-compiler webp \
-          curl xxd patchelf flex bison libarchive-tools build-essential pcre2-utils
-        # Install kernel modules safely if needed, or omit if unneeded for container builds
-        sudo apt install -yq linux-modules-extra-$(uname -r) || echo "Kernel modules package not found, skipping..."
-        sudo modprobe erofs f2fs || true
+          sudo apt update
+          DEBIAN_FRONTEND=noninteractive sudo apt install -yq \
+            p7zip-full jq attr ccache clang ffmpeg golang \
+            libbrotli-dev libgtest-dev libprotobuf-dev libunwind-dev libpcre2-dev \
+            libzstd-dev linux-modules-extra-$(uname -r) lld protobuf-compiler webp \
+            curl xxd patchelf flex bison libarchive-tools build-essential pcre2-utils
+          sudo modprobe erofs f2fs
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
